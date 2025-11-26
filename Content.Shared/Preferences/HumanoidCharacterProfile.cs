@@ -38,18 +38,6 @@
 // SPDX-FileCopyrightText: 2025 pa.pecherskij <pa.pecherskij@interfax.ru>
 // SPDX-FileCopyrightText: 2025 slarticodefast <161409025+slarticodefast@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 taydeo <td12233a@gmail.com>
-// SPDX-FileCopyrightText: 2024 metalgearsloth <comedian_vs_clown@hotmail.com>
-// SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 BeBright <98597725+be1bright@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 BeBright <98597725+bebr3ght@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 GoobBot <uristmchands@proton.me>
-// SPDX-FileCopyrightText: 2025 Hyper B <137433177+HyperB1@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 MarkerWicker <markerWicker@proton.me>
-// SPDX-FileCopyrightText: 2025 Pieter-Jan Briers <pieterjan.briers+git@gmail.com>
-// SPDX-FileCopyrightText: 2025 SX-7 <sn1.test.preria.2002@gmail.com>
-// SPDX-FileCopyrightText: 2025 SX_7 <sn1.test.preria.2002@gmail.com>
-// SPDX-FileCopyrightText: 2025 metalgearsloth <31366439+metalgearsloth@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 āda <ss.adasts@gmail.com>
 //
 // SPDX-License-Identifier: MIT
 
@@ -158,14 +146,6 @@ namespace Content.Shared.Preferences
         [DataField]
         public Gender Gender { get; private set; } = Gender.Male;
 
-        // begin Goobstation: port EE height/width sliders
-        [DataField]
-        public float Height { get; private set; }
-
-        [DataField]
-        public float Width { get; private set; }
-        // end Goobstation: port EE height/width sliders
-
         /// <summary>
         /// <see cref="Appearance"/>
         /// </summary>
@@ -208,8 +188,6 @@ namespace Content.Shared.Preferences
             string flavortext,
             string species,
             string borgname,
-            float height, // Goobstation: port EE height/width sliders
-            float width, // Goobstation: port EE height/width sliders
             int age,
             Sex sex,
             Gender gender,
@@ -230,8 +208,6 @@ namespace Content.Shared.Preferences
             FlavorText = flavortext;
             Species = species;
             BorgName = borgname;
-            Height = height; // Goobstation: port EE height/width sliders
-            Width = width; // Goobstation: port EE height/width sliders
             Age = age;
             Sex = sex;
             Gender = gender;
@@ -255,8 +231,6 @@ namespace Content.Shared.Preferences
                 other.Species,
                 // #Goobstation - Borg Preferred Name
                 other.BorgName,
-                other.Height, // Goobstation: port EE height/width sliders
-                other.Width, // Goobstation: port EE height/width sliders
                 other.Age,
                 other.Sex,
                 other.Gender,
@@ -318,14 +292,10 @@ namespace Content.Shared.Preferences
 
             var sex = Sex.Unsexed;
             var age = 18;
-            var height = 1f; // Goobstation: port EE height/width sliders
-            var width = 1f; // Goobstation: port EE height/width sliders
             if (prototypeManager.TryIndex<SpeciesPrototype>(species, out var speciesPrototype))
             {
                 sex = random.Pick(speciesPrototype.Sexes);
                 age = random.Next(speciesPrototype.MinAge, speciesPrototype.OldAge); // people don't look and keep making 119 year old characters with zero rp, cap it at middle aged
-                height = random.NextFloat(speciesPrototype.MinHeight, speciesPrototype.MaxHeight); // Goobstation: port EE height/width sliders
-                width = random.NextFloat(speciesPrototype.MinWidth, speciesPrototype.MaxWidth); // Goobstation: port EE height/width sliders
             }
 
             // Goob Station - Barks Start
@@ -361,8 +331,6 @@ namespace Content.Shared.Preferences
                 Age = age,
                 Gender = gender,
                 Species = species,
-                Width = width, // Goobstation: port EE height/width sliders
-                Height = height, // Goobstation: port EE height/width sliders
                 Appearance = HumanoidCharacterAppearance.Random(species, sex),
                 BarkVoice = barkvoiceId, // Goob Station - Barks
             };
@@ -405,16 +373,6 @@ namespace Content.Shared.Preferences
             return new(this) { Species = species };
         }
 
-        // begin Goobstation: port EE height/width sliders
-        public HumanoidCharacterProfile WithHeight(float height)
-        {
-            return new(this) { Height = height };
-        }
-        public HumanoidCharacterProfile WithWidth(float width)
-        {
-            return new(this) { Width = width };
-        }
-        // end Goobstation: port EE height/width sliders
 
         public HumanoidCharacterProfile WithCharacterAppearance(HumanoidCharacterAppearance appearance)
         {
@@ -580,9 +538,6 @@ namespace Content.Shared.Preferences
             if (Gender != other.Gender) return false;
             if (Species != other.Species) return false;
             if (BarkVoice != other.BarkVoice) return false; // Goob Station - Barks
-            if (Height != other.Height) return false; // Goobstation: port EE height/width sliders
-            if (Width != other.Width) return false; // Goobstation: port EE height/width sliders
-            if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (SpawnPriority != other.SpawnPriority) return false;
             if (!_jobPreferences.SequenceEqual(other._jobPreferences)) return false;
             if (!_antagPreferences.SequenceEqual(other._antagPreferences)) return false;
@@ -694,16 +649,6 @@ namespace Content.Shared.Preferences
                 borgname = GetBorgName();
             }
 
-            // begin Goobstation: port EE height/width sliders
-            var height = Height;
-            if (speciesPrototype != null)
-                height = Math.Clamp(Height, speciesPrototype.MinHeight, speciesPrototype.MaxHeight);
-
-            var width = Width;
-            if (speciesPrototype != null)
-                width = Math.Clamp(Width, speciesPrototype.MinWidth, speciesPrototype.MaxWidth);
-            // end Goobstation: port EE height/width sliders
-
             var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex);
 
             var spawnPriority = SpawnPriority switch
@@ -730,8 +675,6 @@ namespace Content.Shared.Preferences
             // #Goobstation - Borg Preferred Name
             BorgName = borgname;
             Age = age;
-            Height = height; // Goobstation: port EE height/width sliders
-            Width = width; // Goobstation: port EE height/width sliders
             Sex = sex;
             Gender = gender;
             Appearance = appearance;
@@ -856,8 +799,6 @@ namespace Content.Shared.Preferences
             // #Goobstation - Borg Preferred Name
             hashCode.Add(BorgName);
             hashCode.Add(Species);
-            hashCode.Add(Height); // Goobstation: port EE height/width sliders
-            hashCode.Add(Width); // Goobstation: port EE height/width sliders
             hashCode.Add(Age);
             hashCode.Add((int) Sex);
             hashCode.Add((int) Gender);

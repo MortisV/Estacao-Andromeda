@@ -38,25 +38,6 @@
 // SPDX-FileCopyrightText: 2025 88tv <131759102+88tv@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Orsoniks <orsoniksstuff@gmail.com>
 // SPDX-FileCopyrightText: 2025 Tay <td12233a@gmail.com>
-// SPDX-FileCopyrightText: 2024 to4no_fix <156101927+chavonadelal@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2024 voidnull000 <18663194+voidnull000@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2024 Łuaksz <test@test.com>
-// SPDX-FileCopyrightText: 2024 Łukasz Lindert <lukasz.lindert@protonmail.com>
-// SPDX-FileCopyrightText: 2024 Арт <123451459+JustArt1m@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 Aviu00 <93730715+Aviu00@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 Aviu00 <aviu00@protonmail.com>
-// SPDX-FileCopyrightText: 2025 GoobBot <uristmchands@proton.me>
-// SPDX-FileCopyrightText: 2025 Kayzel <43700376+KayzelW@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 MarkerWicker <markerWicker@proton.me>
-// SPDX-FileCopyrightText: 2025 Roudenn <romabond091@gmail.com>
-// SPDX-FileCopyrightText: 2025 Spatison <137375981+Spatison@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 Trest <144359854+trest100@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 Zachary Higgs <compgeek223@gmail.com>
-// SPDX-FileCopyrightText: 2025 gluesniffler <159397573+gluesniffler@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 gluesniffler <linebarrelerenthusiast@gmail.com>
-// SPDX-FileCopyrightText: 2025 gus <august.eymann@gmail.com>
-// SPDX-FileCopyrightText: 2025 kurokoTurbo <92106367+kurokoTurbo@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 slarticodefast <161409025+slarticodefast@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 taydeo <td12233a@gmail.com>
 //
@@ -590,31 +571,4 @@ public sealed class BloodstreamSystem : EntitySystem
 
         return bloodData;
     }
-    private void OnWoundSeverityChanged(Entity<BloodstreamComponent> ent, ref WoundSeverityPointChangedOnBodyEvent args)
-    {
-        if (!TryComp<BleedInflicterComponent>(args.Wound, out var bleeds)
-            || !bleeds.IsBleeding)
-            return;
-
-        // Calculate the change in severity
-        var deltaBleed = args.NewSeverity - args.OldSeverity;
-
-        // Only update if there was an actual change
-        if (deltaBleed == 0)
-            return;
-
-        // Convert severity change to bleed amount (using similar logic as in SharedBloodstreamSystem)
-        var bleedChange = deltaBleed * _cfg.GetCVar(SurgeryCVars.BleedingSeverityTrade);
-        TryModifyBleedAmount(ent, bleedChange.Float(), ent);
-    }
-
-    // begin Goobstation: port EE height/width sliders
-    public void SetBloodMaxVolume(EntityUid uid, FixedPoint2 volume, BloodstreamComponent? comp = null)
-    {
-        if (!Resolve(uid, ref comp))
-            return;
-
-        comp.BloodMaxVolume = volume;
-    }
-    // end Goobstation: port EE height/width sliders
 }
