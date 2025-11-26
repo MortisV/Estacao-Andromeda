@@ -59,11 +59,16 @@
     - ToyFigurineGertulio
 
 - type: loadout
+  id: FigurineGabrielHawkins
+  storage:
+    back:
+    - ToyFigurineGabrielHawkins
+
+- type: loadout
   id: FigurePax
   storage:
     back:
     - BoxPax
-  Sprite:
     
 
 

@@ -113,6 +113,17 @@
   - type: SurgeryTool # Shitmed
     endSound:
       path: /Audio/Weapons/Guns/Gunshots/laser.ogg
+  # Goobstation edit start
+  - type: EmitSoundOnPickup
+    sound:
+      collection: LasersPickUp
+  - type: EmitSoundOnDrop
+    sound:
+      collection: LasersDrop
+  - type: EmitSoundOnLand
+    sound:
+      collection: LasersDrop
+  # Goobstation edit end
 
 - type: entity
   id: BaseWeaponPowerCell
@@ -211,6 +222,9 @@
     steps: 5
     zeroVisible: true
   - type: Multishot # Goobstation
+  - type: Tag
+    tags:
+    - SvalinnPistol
 
 - type: entity
   name: retro laser blaster
@@ -486,6 +500,7 @@
     tags:
       - SpecialWeapon
       - TurretCompatibleWeapon
+      - LaserCannon
 
 - type: entity
   name: portable particle decelerator
@@ -548,6 +563,7 @@
   - type: Tag
     tags:
       - SpecialWeapon
+      - XrayCannon
 
 - type: entity
   name: practice disabler
@@ -626,6 +642,7 @@
   - type: Tag
     tags:
       - Taser
+      - DisablerSMG
   - type: Sprite
     sprite: Objects/Weapons/Guns/Battery/disabler_smg.rsi
     layers:

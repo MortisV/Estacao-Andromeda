@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2025 FoxtrotBelial <td12233a@gmail.com>
+
 - type: entity
   name: DT-3 "Atrocity"
   parent: BaseItem
@@ -32,12 +34,13 @@
   - type: Stunbaton
     energyPerUse: 120
   - type: MeleeWeapon
-    angle: 0
+    angle:  60
     wideAnimationRotation: -135
     damage:
       types:
         Blunt: 13 # Unlucky number
         Slash: 7 # Lucky number
+        Structural: 20 #Uso de arrombamento
     animation: WeaponArcThrust
   - type: StaminaDamageOnHit
     damage: 40
@@ -51,7 +54,7 @@
     startingCharge: 1000
   - type: BatterySelfRecharger
     autoRecharge: true
-    autoRechargeRate: 20
+    autoRechargeRate: 10
   - type: UseDelay
   - type: Item
     heldPrefix: off

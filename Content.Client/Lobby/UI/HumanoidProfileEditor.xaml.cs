@@ -61,6 +61,7 @@
 // SPDX-FileCopyrightText: 2025 SaffronFennec <firefoxwolf2020@protonmail.com>
 // SPDX-FileCopyrightText: 2025 Tay <td12233a@gmail.com>
 // SPDX-FileCopyrightText: 2025 Tobias Berger <toby@tobot.dev>
+// SPDX-FileCopyrightText: 2025 W.xyz() <tptechteam@gmail.com>
 // SPDX-FileCopyrightText: 2025 corresp0nd <46357632+corresp0nd@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 pa.pecherskij <pa.pecherskij@interfax.ru>
 // SPDX-FileCopyrightText: 2025 slarticodefast <161409025+slarticodefast@users.noreply.github.com>
@@ -106,6 +107,9 @@ using Content.Client._Funkystation.Medical.Records.UI;
 using Content.Shared._Funkystation.Records;
 // End CD - Character Records
 
+using Direction = Robust.Shared.Maths.Direction;
+using Content.Shared._Goobstation.CCVar; // Goob Station - Barks
+using Content.Shared._Goobstation.Barks; // Goob Station - Barks
 namespace Content.Client.Lobby.UI
 {
     [GenerateTypedNameReferences]
@@ -298,6 +302,17 @@ namespace Content.Client.Lobby.UI
             };
 
             #endregion Gender
+
+            // Goob Station
+            #region Barks
+
+            if (configurationManager.GetCVar(GoobCVars.BarksEnabled))
+            {
+                BarksContainer.Visible = true;
+                InitializeBarkVoice();
+            }
+
+            #endregion
 
             RefreshSpecies();
 
@@ -652,6 +667,30 @@ namespace Content.Client.Lobby.UI
                         };
                         selector.Checkbox.TooltipSupplier = _ => tooltip;
                         selector.Preference = false;
+                        Profile = Profile?.WithoutTraitPreference(trait.ID, _prototypeManager);
+                    }
+
+                    // Check if required traits have not been chosen - Funky
+                    if (trait.Prerequisite != null && (!Profile?.TraitPreferences.Contains(trait.Prerequisite) ?? false))
+                    {
+                        selector.Checkbox.Disabled = true;
+                        selector.Checkbox.Label.FontColorOverride = Color.Orange;
+                        var tooltip = new PanelContainer
+                        {
+                            StyleClasses = { StyleNano.StyleClassTooltipPanel },
+                            Children =
+                            {
+                                new Label
+                                {
+                                    Text = Loc.GetString("trait-prerequisite-required", ("prerequisite", trait.Prerequisite)),
+                                    HorizontalAlignment = HAlignment.Center,
+                                    FontColorOverride = Color.FromHex("#C8C8C8")
+                                }
+                            }
+                        };
+                        selector.Checkbox.TooltipSupplier = _ => tooltip;
+                        selector.Preference = false;
+                        Profile = Profile?.WithoutTraitPreference(trait.ID, _prototypeManager);
                     }
 
                     selector.PreferenceChanged += preference =>
@@ -858,6 +897,7 @@ namespace Content.Client.Lobby.UI
             UpdateEyePickers();
             UpdateSaveButton();
             UpdateMarkings();
+            UpdateBarkVoice(); // Goob Station - Barks
             UpdateHairPickers();
             UpdateCMarkingsHair();
             UpdateCMarkingsFacialHair();
@@ -1324,6 +1364,7 @@ namespace Content.Client.Lobby.UI
             UpdateSexControls(); // update sex for new species
             UpdateSpeciesGuidebookIcon();
             ReloadPreview();
+            UpdateBarkVoice(); // Goob Station - Barks
         }
 
         private void SetName(string newName)
@@ -1342,6 +1383,14 @@ namespace Content.Client.Lobby.UI
             Profile = Profile?.WithSpawnPriorityPreference(newSpawnPriority);
             SetDirty();
         }
+
+        // Goob Station - Start
+        private void SetBarkVoice(BarkPrototype newVoice)
+        {
+            Profile = Profile?.WithBarkVoice(newVoice);
+            IsDirty = true;
+        }
+        // Goob Station - End
 
         public bool IsDirty
         {

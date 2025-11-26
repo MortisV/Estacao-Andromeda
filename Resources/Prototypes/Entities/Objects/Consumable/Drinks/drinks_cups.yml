@@ -66,6 +66,14 @@
   name: base cup
   abstract: true
   components:
+  # Goobstation edit start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_Goobstation/Items/other/Cup/pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_Goobstation/Items/other/Cup/drop.ogg
+  # Goobstation edit end
   - type: SolutionContainerManager
     solutions:
       drink:
@@ -102,16 +110,16 @@
   - type: Tag
     tags:
     - DrinkCup
-  - type: EmitSoundOnPickup
-    sound:
-      path: /Audio/SimpleStation14/Items/Handling/drinkglass_pickup.ogg
-      params:
-        volume: -4
-  - type: EmitSoundOnDrop
-    sound:
-      path: /Audio/SimpleStation14/Items/Handling/drinkglass_drop.ogg
-      params:
-        volume: -4
+#  - type: EmitSoundOnPickup
+#    sound:
+#      path: /Audio/SimpleStation14/Items/Handling/drinkglass_pickup.ogg
+#      params:
+#        volume: -4
+#  - type: EmitSoundOnDrop
+#    sound:
+#      path: /Audio/SimpleStation14/Items/Handling/drinkglass_drop.ogg
+#      params:
+#        volume: -4
   - type: EmitSoundOnLand
     sound:
       path: /Audio/SimpleStation14/Items/Handling/drinkglass_drop.ogg

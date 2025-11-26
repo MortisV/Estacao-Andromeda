@@ -126,6 +126,10 @@
   id: usualsuspects
   background: /Textures/LobbyScreens/usualsuspects.webp
 
+- type: lobbyBackground
+  id: ratburgers
+  background: /Textures/LobbyScreens/ratburgers.webp
+
 # Andromeda
 
 - type: lobbyBackground
@@ -167,11 +171,11 @@
 - type: lobbyBackground
   id: KaasiDoshi
   background: /Textures/LobbyScreens/KAASI_DOSHI.webp
-  name: CAPTAIN'S BURDEN
-  artist: GooseyTeeth
 
 - type: lobbyBackground
   id: No-Ro
   background: /Textures/LobbyScreens/NO-RO.webp
-  name: MINIMUM FORCE NECESSARY
-  artist: GooseyTeeth
+  
+- type: lobbyBackground
+  id: termina
+  background: /Textures/LobbyScreens/TERMINA.webp
